@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meiyarasan R — RTL Design &amp; Verification Engineer</title>
+<meta name="description" content="Portfolio of Meiyarasan R — final-year ECE student specializing in RTL design and SystemVerilog functional verification, RISC-V, and low-power FPGA hardware acceleration.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============ THEME ============ */
+  :root {
+    --font-body: 'Space Grotesk', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+    --bg: #eef2f6;
+    --bg-grid: rgba(15, 40, 70, 0.055);
+    --bg-grid-bold: rgba(15, 40, 70, 0.08);
+    --surface: #ffffff;
+    --surface2: #f4f8fb;
+    --surface-elevated: #ffffff;
+    --border: rgba(15, 40, 70, 0.12);
+    --border-bright: rgba(15, 40, 70, 0.26);
+    --text: #0d1f30;
+    --text-dim: #5b7085;
+    --accent: #0369a1;
+    --accent-dim: rgba(3, 105, 161, 0.08);
+    --gold: #a9750a;
+    --gold-dim: rgba(169, 117, 10, 0.10);
+    --teal: #0f766e;
+    --teal-dim: rgba(15, 118, 110, 0.08);
+    --green: #15803d;
+    --green-dim: rgba(21, 128, 61, 0.08);
+    --plum: #9f1239;
+    --plum-dim: rgba(159, 18, 57, 0.08);
+    --shadow: 0 2px 10px rgba(13, 31, 48, 0.06), 0 1px 2px rgba(13, 31, 48, 0.04);
+    --shadow-lg: 0 12px 32px rgba(13, 31, 48, 0.10), 0 2px 6px rgba(13, 31, 48, 0.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #081420;
+      --bg-grid: rgba(120, 180, 230, 0.055);
+      --bg-grid-bold: rgba(120, 180, 230, 0.09);
+      --surface: #0f2233;
+      --surface2: #132a3d;
+      --surface-elevated: #12283a;
+      --border: rgba(150, 200, 240, 0.13);
+      --border-bright: rgba(150, 200, 240, 0.26);
+      --text: #dcebf7;
+      --text-dim: #7f9cb5;
+      --accent: #4cc2ff;
+      --accent-dim: rgba(76, 194, 255, 0.12);
+      --gold: #e0b84c;
+      --gold-dim: rgba(224, 184, 76, 0.12);
+      --teal: #5eead4;
+      --teal-dim: rgba(94, 234, 212, 0.12);
+      --green: #86efac;
+      --green-dim: rgba(134, 239, 172, 0.12);
+      --plum: #fda4af;
+      --plum-dim: rgba(253, 164, 175, 0.12);
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.30);
+      --shadow-lg: 0 14px 36px rgba(0, 0, 0, 0.42);
+    }
+  }
+
+  /* ============ RESET + BASE ============ */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+  body {
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--bg-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px),
+      radial-gradient(ellipse at 78% -6%, var(--accent-dim) 0%, transparent 46%),
+      radial-gradient(ellipse at 8% 108%, var(--gold-dim) 0%, transparent 42%);
+    background-size: 26px 26px, 26px 26px, 100% 100%, 100% 100%;
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-wrap: break-word;
+  }
+
+  ::selection { background: var(--accent); color: #fff; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ============ ANIMATION ============ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal { animation: fadeUp 0.5s ease-out both; animation-delay: calc(var(--i, 0) * 0.06s); }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* ============ NAV ============ */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav__inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 12px 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: space-between;
+  }
+  .nav__brand {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .nav__brand .br { color: var(--accent); }
+  .nav__links {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav__links::-webkit-scrollbar { display: none; }
+  .nav__links a {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    padding: 6px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav__links a:hover { background: var(--accent-dim); color: var(--accent); text-decoration: none; }
+
+  /* ============ LAYOUT ============ */
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+  section { padding: 56px 0; border-bottom: 1px dashed var(--border); }
+  section:last-of-type { border-bottom: none; }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 8px;
+  }
+  .section-label::before {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 0 3px var(--accent-dim);
+  }
+  .section-label .idx { color: var(--text-dim); font-weight: 500; }
+  h2.section-title {
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 28px;
+    text-wrap: balance;
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding: 72px 0 56px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .hero__grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 44px;
+    align-items: start;
+  }
+  .hero__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero__eyebrow::before { content: ''; width: 34px; height: 1px; background: var(--gold); }
+  .hero h1 {
+    font-size: clamp(40px, 7vw, 68px);
+    font-weight: 700;
+    line-height: 1.0;
+    letter-spacing: -2px;
+    margin-bottom: 16px;
+  }
+  .hero__role {
+    font-size: clamp(17px, 2.2vw, 21px);
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 20px;
+    font-family: var(--font-mono);
+  }
+  .hero__desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-dim);
+    max-width: 60ch;
+    margin-bottom: 26px;
+  }
+  .hero__desc strong { color: var(--text); font-weight: 600; }
+
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 11px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--border-bright);
+    background: var(--surface);
+    color: var(--text);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s, border-color 0.15s, background 0.15s, box-shadow 0.15s;
+  }
+  .btn:hover { text-decoration: none; transform: translateY(-2px); border-color: var(--accent); box-shadow: var(--shadow); }
+  .btn--primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn--primary:hover { background: color-mix(in srgb, var(--accent) 88%, #000); }
+  .btn svg { width: 15px; height: 15px; }
+
+  /* Contact panel */
+  .contact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+  .contact-card__head {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+    display: flex;
+    justify-content: space-between;
+  }
+  .contact-card__head .dot3 { color: var(--accent); letter-spacing: 2px; }
+  .contact-row {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .contact-row:last-child { border-bottom: none; }
+  .contact-row:hover { background: var(--accent-dim); }
+  .contact-row .ic {
+    width: 34px; height: 34px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    display: grid; place-items: center;
+  }
+  .contact-row .ic svg { width: 17px; height: 17px; }
+  .contact-row .lbl { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); }
+  .contact-row .val { font-size: 14px; font-weight: 500; color: var(--text); overflow-wrap: anywhere; }
+  .contact-row:hover .val { color: var(--accent); }
+
+  /* ============ KPI STRIP ============ */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px;
+  }
+  .kpi {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    border-radius: 12px;
+    padding: 20px 18px;
+    transition: transform 0.18s, box-shadow 0.18s;
+  }
+  .kpi:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+  .kpi--gold { border-top-color: var(--gold); }
+  .kpi--teal { border-top-color: var(--teal); }
+  .kpi--green { border-top-color: var(--green); }
+  .kpi__value {
+    font-size: clamp(28px, 3.4vw, 38px);
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi--gold .kpi__value { color: var(--gold); }
+  .kpi--teal .kpi__value { color: var(--teal); }
+  .kpi--green .kpi__value { color: var(--green); }
+  .kpi:not([class*="kpi--"]) .kpi__value { color: var(--accent); }
+  .kpi__label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  /* ============ CARDS ============ */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+  }
+  .card--accent { border-left: 3px solid var(--accent); }
+  .card--gold { border-left: 3px solid var(--gold); }
+  .card--teal { border-left: 3px solid var(--teal); }
+
+  .card__label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .card__label::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+
+  /* ============ EXPERIENCE / TIMELINE ============ */
+  .exp-item {
+    display: grid;
+    grid-template-columns: 210px 1fr;
+    gap: 32px;
+    padding: 26px 0;
+  }
+  .exp-item + .exp-item { border-top: 1px solid var(--border); }
+  .exp__when {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .exp__when .badge {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--teal);
+    background: var(--teal-dim);
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+  .exp__title { font-size: 19px; font-weight: 600; margin-bottom: 2px; }
+  .exp__org { font-size: 14px; color: var(--accent); font-weight: 500; margin-bottom: 14px; }
+  .exp__list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .exp__list li { position: relative; padding-left: 20px; font-size: 14.5px; color: var(--text-dim); line-height: 1.6; }
+  .exp__list li::before { content: '▹'; position: absolute; left: 0; color: var(--accent); font-size: 13px; }
+  .exp__list strong { color: var(--text); font-weight: 600; }
+
+  /* ============ PROJECT GRID ============ */
+  .proj-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 18px;
+  }
+  .proj {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  }
+  .proj:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--border-bright); }
+  .proj--featured { grid-column: span 2; border-color: color-mix(in srgb, var(--border) 40%, var(--gold) 60%); }
+  .proj__top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+  .proj__idx { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); letter-spacing: 1px; }
+  .proj__gh {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 9px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .proj__gh:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+  .proj__gh svg { width: 13px; height: 13px; }
+  .proj__title { font-size: 18px; font-weight: 600; line-height: 1.3; margin-bottom: 12px; }
+  .proj__desc { font-size: 14px; color: var(--text-dim); line-height: 1.65; margin-bottom: 16px; }
+  .proj__desc strong { color: var(--text); font-weight: 600; }
+  .proj__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .tag--gold { background: var(--gold-dim); color: var(--gold); }
+  .tag--teal { background: var(--teal-dim); color: var(--teal); }
+
+  /* ============ PUBLICATION ============ */
+  .pub {
+    background: color-mix(in srgb, var(--surface) 92%, var(--gold) 8%);
+    border: 1px solid color-mix(in srgb, var(--border) 45%, var(--gold) 55%);
+    border-radius: 16px;
+    padding: 30px 32px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .pub::after {
+    content: 'DVCon India 2026';
+    position: absolute;
+    top: 16px; right: -34px;
+    transform: rotate(38deg);
+    background: var(--gold);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 4px 40px;
+  }
+  .pub__tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    color: var(--gold);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .pub__tag::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .pub__title { font-size: clamp(18px, 2.4vw, 23px); font-weight: 600; line-height: 1.35; margin-bottom: 14px; max-width: 60ch; }
+  .pub__meta { font-size: 14px; color: var(--text-dim); line-height: 1.7; max-width: 75ch; }
+
+  /* ============ SKILLS ============ */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .skill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .skill__name {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .skill__tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  /* ============ EDUCATION ============ */
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .edu {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .edu__school { font-size: 17px; font-weight: 600; line-height: 1.35; }
+  .edu__loc { font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); }
+  .edu__deg { font-size: 14.5px; color: var(--accent); font-weight: 500; margin-top: 8px; }
+  .edu__years { font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); }
+  .edu__score {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  .edu__score b { color: var(--gold); font-size: 18px; font-weight: 700; }
+
+  /* ============ LISTS (achievements / certs / leadership) ============ */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .stack { display: flex; flex-direction: column; gap: 14px; }
+  .item {
+    display: flex;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .item:hover { transform: translateX(3px); border-color: var(--border-bright); }
+  .item__num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: var(--accent-dim);
+    display: grid; place-items: center;
+  }
+  .item--gold .item__num { color: var(--gold); background: var(--gold-dim); }
+  .item__body { min-width: 0; }
+  .item__title { font-size: 14.5px; font-weight: 600; line-height: 1.45; margin-bottom: 3px; }
+  .item__desc { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+  .item__desc code {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    padding: 40px 0 56px;
+    text-align: center;
+  }
+  .footer__links { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px; }
+  .footer__links a { font-family: var(--font-mono); font-size: 12.5px; }
+  footer .fine { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-dim); }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 900px) {
+    .hero__grid { grid-template-columns: 1fr; gap: 32px; }
+    .exp-item { grid-template-columns: 1fr; gap: 12px; }
+    .proj--featured { grid-column: span 1; }
+    .edu-grid, .two-col { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .wrap, .nav__inner { padding-left: 18px; padding-right: 18px; }
+    section { padding: 40px 0; }
+    .hero { padding: 44px 0 40px; }
+    .nav__links { display: none; }
+    .proj-grid { grid-template-columns: 1fr; }
+    .pub { padding: 24px 20px; }
+    .pub::after { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav__inner">
+    <span class="nav__brand"><span class="br">&gt;</span> Meiyarasan&nbsp;R</span>
+    <div class="nav__links">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#publication">Publication</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap hero__grid">
+    <div class="reveal" style="--i:0">
+      <div class="hero__eyebrow">RTL Design &middot; Design Verification</div>
+      <h1>Meiyarasan&nbsp;R</h1>
+      <div class="hero__role">RTL Design &amp; Design Verification Engineer</div>
+      <p class="hero__desc">
+        Final-year <strong>Electronics &amp; Communication Engineering</strong> student specializing in
+        <strong>RTL design</strong> and <strong>SystemVerilog-based functional verification</strong>.
+        Hands-on experience across <strong>RISC-V processor design and verification</strong>,
+        protocol verification, FPGA SoC development, and low-power hardware acceleration.
+        Research work selected for presentation at <strong>DVCon India 2026</strong>.
+        Seeking entry-level RTL Design or Design Verification opportunities.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn--primary" href="mailto:meiyarasanr4@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+          Get in touch
+        </a>
+        <a class="btn" href="https://github.com/MeiyarasanR" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>
+          GitHub
+        </a>
+        <a class="btn" href="https://www.linkedin.com/in/meiyarasan-r-19b8ba355" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+
+    <aside class="contact-card reveal" style="--i:1">
+      <div class="contact-card__head"><span>// contact</span><span class="dot3">&#9679;&#9679;&#9679;</span></div>
+      <a class="contact-row" href="mailto:meiyarasanr4@gmail.com">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></span>
+        <span><span class="lbl">Email</span><br><span class="val">meiyarasanr4@gmail.com</span></span>
+      </a>
+      <a class="contact-row" href="tel:+917010700186">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></span>
+        <span><span class="lbl">Phone</span><br><span class="val">+91 70107 00186</span></span>
+      </a>
+      <a class="contact-row" href="https://www.linkedin.com/in/meiyarasan-r-19b8ba355" target="_blank" rel="noopener">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM7.12 20.45H3.55V9h3.57v11.45Z"/></svg></span>
+        <span><span class="lbl">LinkedIn</span><br><span class="val">meiyarasan-r</span></span>
+      </a>
+      <a class="contact-row" href="https://github.com/MeiyarasanR" target="_blank" rel="noopener">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg></span>
+        <span><span class="lbl">GitHub</span><br><span class="val">MeiyarasanR</span></span>
+      </a>
+    </aside>
+  </div>
+</header>
+
+<!-- ============ KPI ============ -->
+<section id="about">
+  <div class="wrap">
+    <div class="section-label"><span class="idx">01</span> Highlights</div>
+    <h2 class="section-title">At a glance</h2>
+    <div class="kpi-row">
+      <div class="kpi kpi--gold reveal" style="--i:0">
+        <div class="kpi__value">98.50%</div>
+        <div class="kpi__label">ECG classification accuracy &middot; MIT-BIH database</div>
+      </div>
+      <div class="kpi kpi--green reveal" style="--i:1">
+        <div class="kpi__value">96.5%</div>
+        <div class="kpi__label">Dynamic power reduction via approximation</div>
+      </div>
+      <div class="kpi kpi--teal reveal" style="--i:2">
+        <div class="kpi__value">142<span style="font-size:0.5em"> mW</span></div>
+        <div class="kpi__label">Total power &middot; 100 MHz</div>
+      </div>
+      <div class="kpi reveal" style="--i:3">
+        <div class="kpi__value">302</div>
+        <div class="kpi__label">LUTs &middot; no DSPs or BRAMs</div>
+      </div>
+      <div class="kpi kpi--gold reveal" style="--i:4">
+        <div class="kpi__value">2026</div>
+        <div class="kpi__label">Research selected &middot; DVCon India</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section id="experience">
+  <div class="wrap">
+    <div class="section-label"><span class="idx">02</span> Experience</div>
+    <h2 class="section-title">Internship</h2>
+    <div class="card card--accent reveal" style="--i:0">
+      <div class="exp-item">
+        <div class="exp__when">
+          May 2026 – June 2026
+          <br><span class="badge">Research Intern</span>
+        </div>
+        <div>
+          <div class="exp__title">Research Intern</div>
+          <div class="exp__org">National Institute of Technology, Delhi</div>
+          <ul class="exp__list">
+            <li>Worked on <strong>RTL optimization</strong> of a low-power <strong>1D-CNN hardware accelerator</strong> for ECG arrhythmia classification using approximate multipliers and operand isolation techniques.</li>
+            <li>Verified functional correctness and evaluated design performance through <strong>Vivado simulation</strong> and <strong>MATLAB-based analysis</strong>, contributing to research documentation.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section id="projects">
+  <div class="wrap">
+    <div class="section-label"><span class="idx">03</span> Projects</div>
+    <h2 class="section-title">Selected work</h2>
+    <div class="proj-grid">
+
+      <article class="proj reveal" style="--i:0">
+        <div class="proj__top">
+          <span class="proj__idx">PRJ / 01</span>
+          <a class="proj__gh" href="https://github.com/MeiyarasanR/RISC-V-Single-Stage-Core" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>
+            Repo
+          </a>
+        </div>
+        <h3 class="proj__title">RISC-V RV32I Single-Stage Processor Design &amp; Verification</h3>
+        <p class="proj__desc">Designed and implemented a <strong>32-bit single-stage RISC-V RV32I processor</strong> in Verilog with instruction fetch, control unit, ALU, register file, immediate generator, PC, and data-memory interface. Built a layered <strong>SystemVerilog verification environment</strong> with generator, driver, monitor, scoreboard, functional coverage, and assertions. Verified arithmetic, logical, load/store, and branch instructions using self-checking testbenches and waveform analysis.</p>
+        <div class="proj__tags">
+          <span class="tag">Verilog</span><span class="tag">Xilinx Vivado</span><span class="tag">QuestaSim</span>
+        </div>
+      </article>
+
+      <article class="proj reveal" style="--i:1">
+        <div class="proj__top">
+          <span class="proj__idx">PRJ / 02</span>
+          <a class="proj__gh" href="https://github.com/MeiyarasanR/UART-Accelerator-SoC" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>
+            Repo
+          </a>
+        </div>
+        <h3 class="proj__title">UART-Controlled Hardware Accelerator SoC on ZedBoard</h3>
+        <p class="proj__desc">Designed and implemented a <strong>MicroBlaze-V based FPGA SoC</strong> on the ZedBoard by integrating Xilinx IP cores and custom <strong>AXI4-Lite peripherals</strong> — including a hardware multiplier, LED controller, and timer IP. Developed embedded <strong>C applications in Vitis</strong> to drive the hardware through memory-mapped AXI registers, and validated the full system on FPGA through UART communication.</p>
+        <div class="proj__tags">
+          <span class="tag">Xilinx Vivado</span><span class="tag">Vitis</span><span class="tag">MicroBlaze-V</span><span class="tag">AXI4-Lite</span>
+        </div>
+      </article>
+
+      <article class="proj reveal" style="--i:2">
+        <div class="proj__top">
+          <span class="proj__idx">PRJ / 03</span>
+          <a class="proj__gh" href="https://github.com/MeiyarasanR/Systemverilog-Verification-of-SPI-Protocol" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>
+            Repo
+          </a>
+        </div>
+        <h3 class="proj__title">SPI Protocol Functional Verification</h3>
+        <p class="proj__desc">Developed a layered <strong>SystemVerilog verification environment</strong> for an SPI Master-Slave communication system, with transaction, generator, driver, monitor, scoreboard, and environment components. Verified <strong>12-bit SPI data transmission</strong> using constrained-random stimulus, automated scoreboard checking, and waveform analysis to validate protocol functionality and data integrity.</p>
+        <div class="proj__tags">
+          <span class="tag">SystemVerilog</span><span class="tag">EDA Playground</span><span class="tag">QuestaSim</span>
+        </div>
+      </article>
+
+      <article class="proj reveal" style="--i:3">
+        <div class="proj__top">
+          <span class="proj__idx">PRJ / 04</span>
+          <a class="proj__gh" href="https://github.com/MeiyarasanR/GCD-Datapath_and_Controlller_path" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>
+            Repo
+          </a>
+        </div>
+        <h3 class="proj__title">GCD Processor RTL Verification</h3>
+        <p class="proj__desc">Designed and implemented a <strong>Greatest Common Divisor processor</strong> in Verilog using separate <strong>datapath</strong> and <strong>FSM-based controller</strong> modules following RTL design principles. Verified functionality through directed Verilog testbenches, waveform analysis, and simulation debugging — validating state transitions, control logic, and arithmetic operations across multiple test cases.</p>
+        <div class="proj__tags">
+          <span class="tag">Verilog</span><span class="tag">Xilinx Vivado</span><span class="tag">FSM / Datapath</span>
+        </div>
+      </article>
+
+      <article class="proj proj--featured reveal" style="--i:4">
+        <div class="proj__top">
+          <span class="proj__idx">PRJ / 05 &mdash; RESEARCH</span>
+        </div>
+        <h3 class="proj__title">Low-Power 1D-CNN Hardware Accelerator for ECG Arrhythmia Detection</h3>
+        <p class="proj__desc">Designed a low-power <strong>FPGA-based 1D-CNN hardware accelerator</strong> using approximate multipliers and operand isolation techniques, cutting dynamic power by <strong>96.5%</strong>. Achieved <strong>98.5% classification accuracy</strong> on the MIT-BIH Arrhythmia Database while consuming only <strong>142 mW</strong> total power at 100 MHz, using <strong>302 LUTs</strong> and <strong>336 flip-flops</strong> with no DSPs or BRAMs. Improved signal quality with a 4-tap FIR filter and adaptive thresholding, validated end-to-end through <strong>MATLAB&ndash;Vivado co-simulation</strong>.</p>
+        <div class="proj__tags">
+          <span class="tag tag--gold">Xilinx Vivado</span><span class="tag tag--gold">MATLAB</span><span class="tag tag--gold">Approximate Computing</span><span class="tag tag--gold">Zynq XC7Z020</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ PUBLICATION ============ -->
+<section id="publication">
+  <div class="wrap">
+    <div class="section-label"><span class="idx">04</span> Publication</div>
+    <h2 class="section-title">Research</h2>
+    <div class="pub reveal" style="--i:0">
+      <div class="pub__tag">Selected for presentation &middot; DVCon India 2026</div>
+      <h3 class="pub__title">A Low-Power 1D-CNN Hardware Accelerator for Real-Time ECG Arrhythmia Detection Using Multi-Mode Approximate Multipliers and Operand Isolation</h3>
+      <p class="pub__meta">Reaches <strong>98.50% accuracy</strong> at <strong>142 mW total power</strong> in just <strong>302 LUTs</strong> on a Zynq XC7Z020 FPGA.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section id="skills">
+  <div class="wrap">
+    <div class="section-label"><span class="idx">05</span> Capabilities</div>
+    <h2 class="section-title">Technical skills</h2>
+    <div class="skills-grid">
+      <div class="skill reveal" style="--i:0">
+        <div class="skill__name">HDLs</div>
+        <div class="skill__tags"><span class="chip">Verilog</span><span class="chip">SystemVerilog</span></div>
+      </div>
+      <div class="skill reveal" style="--i:1">
+        <div class="skill__name">Programming</div>
+        <div class="skill__tags"><span class="chip">C</span><span class="chip">C++</span></div>
+      </div>
+      <div class="skill reveal" style="--i:2">
+        <div class="skill__name">Verification</div>
+        <div class="skill__tags">
+          <span class="chip">Functional Verification</span><span class="chip">RTL Verification</span>
+          <span class="chip">SVA</span><span class="chip">Directed Testing</span>
+          <span class="chip">SystemVerilog</span><span class="chip">UVM</span>
+          <span class="chip">Waveform Analysis</span><span class="chip">Simulation Debugging</span>
+        </div>
+      </div>
+      <div class="skill reveal" style="--i:3">
+        <div class="skill__name">Digital Design</div>
+        <div class="skill__tags">
+          <span class="chip">RTL Design</span><span class="chip">FSM Design</span>
+          <span class="chip">Datapath Design</span><span class="chip">ALU Design</span>
+        </div>
+      </div>
+      <div class="skill reveal" style="--i:4">
+        <div class="skill__name">Processor Architecture</div>
+        <div class="skill__tags"><span class="chip">RISC-V RV32I</span><span class="chip">Rocket Chip Generator</span></div>
+      </div>
+      <div class="skill reveal" style="--i:5">
+        <div class="skill__name">SoC &amp; FPGA</div>
+        <div class="skill__tags">
+          <span class="chip">FPGA Prototyping</span><span class="chip">HW/SW Co-Design</span>
+          <span class="chip">IP Integration</span><span class="chip">ZedBoard</span>
+        </div>
+      </div>
+      <div class="skill reveal" style="--i:6">
+        <div class="skill__name">EDA Tools</div>
+        <div class="skill__tags">
+          <span class="chip">Vivado</span><span class="chip">Vivado Simulator</span>
+          <span class="chip">Verilator</span><span class="chip">MATLAB</span>
+          <span class="chip">LTspice</span><span class="chip">GTKWave</span>
+          <span class="chip">EDA Playground</span>
+        </div>
+      </div>
+      <div class="skill reveal" style="--i:7">
+        <div class="skill__name">Operating Systems</div>
+        <div class="skill__tags"><span class="chip">Linux</span><span class="chip">Windows</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EDUCATION ============ -->
+<section id="education">
+  <div class="wrap">
+    <div class="section-label"><span class="idx">06</span> Education</div>
+    <h2 class="section-title">Academic background</h2>
+    <div class="edu-grid">
+      <div class="edu reveal" style="--i:0">
+        <div class="edu__school">PSG College of Technology</div>
+        <div class="edu__loc">Coimbatore, India</div>
+        <div class="edu__deg">B.E. Electronics and Communication Engineering</div>
+        <div class="edu__years">2023 – 2027</div>
+        <div class="edu__score">CGPA &nbsp;<b>8.00</b> <span style="color:var(--text-dim)">(till 6th semester)</span></div>
+      </div>
+      <div class="edu reveal" style="--i:1">
+        <div class="edu__school">Vailankanni Matriculation Higher Secondary School</div>
+        <div class="edu__loc">Bargur, India</div>
+        <div class="edu__deg">Higher Secondary Education (Class XII)</div>
+        <div class="edu__years">2023</div>
+        <div class="edu__score">Percentage &nbsp;<b>94.5%</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACHIEVEMENTS + CERTS ============ -->
+<section id="achievements">
+  <div class="wrap">
+    <div class="section-label"><span class="idx">07</span> Recognition</div>
+    <h2 class="section-title">Achievements &amp; certifications</h2>
+    <div class="two-col">
+      <div>
+        <div class="stack">
+          <div class="item item--gold reveal" style="--i:0">
+            <div class="item__num">01</div>
+            <div class="item__body">
+              <div class="item__title">Samsung Semiconductor Fellowship — Cohort 9</div>
+              <div class="item__desc">Selected under the India Semiconductor Workforce Development Program (ISWDP) for semiconductor skill development.</div>
+            </div>
+          </div>
+          <div class="item item--gold reveal" style="--i:1">
+            <div class="item__num">02</div>
+            <div class="item__body">
+              <div class="item__title">First Place — Renesas University Program Demo Day</div>
+              <div class="item__desc">Presented <strong>Embedded Lift Intelligence eXecution (ELIX)</strong>, an intelligent lift floor-position indicator system built on the Renesas RA6E2 microcontroller.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="stack">
+          <div class="item reveal" style="--i:2">
+            <div class="item__num">01</div>
+            <div class="item__body">
+              <div class="item__title">Verification Series Part 1: SystemVerilog Essentials</div>
+              <div class="item__desc">Udemy</div>
+            </div>
+          </div>
+          <div class="item reveal" style="--i:3">
+            <div class="item__num">02</div>
+            <div class="item__body">
+              <div class="item__title">Verification Series Part 2: Hands-On SystemVerilog Projects</div>
+              <div class="item__desc">Udemy</div>
+            </div>
+          </div>
+          <div class="item reveal" style="--i:4">
+            <div class="item__num">03</div>
+            <div class="item__body">
+              <div class="item__title">Verification Series Part 3: UVM Essentials</div>
+              <div class="item__desc">Udemy</div>
+            </div>
+          </div>
+          <div class="item reveal" style="--i:5">
+            <div class="item__num">04</div>
+            <div class="item__body">
+              <div class="item__title">The Complete Guide to SystemVerilog Assertions (SVA)</div>
+              <div class="item__desc">Udemy</div>
+            </div>
+          </div>
+          <div class="item reveal" style="--i:6">
+            <div class="item__num">05</div>
+            <div class="item__body">
+              <div class="item__title">The Complete Electronics Course: Analog Hardware Design</div>
+              <div class="item__desc">Udemy</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LEADERSHIP ============ -->
+<section id="leadership">
+  <div class="wrap">
+    <div class="section-label"><span class="idx">08</span> Beyond the lab</div>
+    <h2 class="section-title">Leadership &amp; activities</h2>
+    <div class="stack">
+      <div class="item reveal" style="--i:0">
+        <div class="item__num">01</div>
+        <div class="item__body">
+          <div class="item__title">IETE Students' Chapter, PSG College of Technology — Director of Media &amp; Design</div>
+          <div class="item__desc">Currently serving as Director of Media &amp; Design; previously Head of Design. Led the media and design team and coordinated technical events including <code>Technotronz'26</code>.</div>
+        </div>
+      </div>
+      <div class="item reveal" style="--i:1">
+        <div class="item__num">02</div>
+        <div class="item__body">
+          <div class="item__title">IEEE Students' Chapter — Active Member</div>
+          <div class="item__desc">Participated in technical events and student activities.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT / FOOTER ============ -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="section-label" style="justify-content:center"><span class="idx">09</span> Contact</div>
+    <h2 class="section-title" style="text-align:center">Let's build something.</h2>
+    <p style="color:var(--text-dim); max-width:52ch; margin:0 auto 26px; text-align:center; font-size:15px;">
+      Open to entry-level RTL Design and Design Verification opportunities.
+    </p>
+    <div class="footer__links">
+      <a href="mailto:meiyarasanr4@gmail.com">meiyarasanr4@gmail.com</a>
+      <a href="tel:+917010700186">+91 70107 00186</a>
+      <a href="https://www.linkedin.com/in/meiyarasan-r-19b8ba355" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/MeiyarasanR" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <div class="fine">&copy; 2026 Meiyarasan R &middot; Built as a single self-contained page.</div>
+  </div>
+</footer>
+
+</body>
+</html>
